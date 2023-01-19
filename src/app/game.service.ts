@@ -33,19 +33,35 @@ export class GameService {
         clearInterval(this.intervalId);
         this.gameRunning = false;
       }
+      this.updateMole();
     }, 1000);
   }
 
   addMoles(){ // Add new random moles with image property and time property
-    let randomSquare = Math.floor(Math.random() * this.grid.length);
-    this.grid[randomSquare].mole = this.image;
-    this.grid[randomSquare].time = Date.now();
+    if(this.maxMoles >= 2){
+      this.maxMoles--;
+    }else {
+    this.maxMoles++;
+    let randomSquare = Math.floor(Math.random() * this.grid.length)
+    this.grid[randomSquare].mole = this.image
+    this.grid[randomSquare].time = Date.now()
+    } 
   }
 
   hitMole(index:number){ // Takes index as paramter in from ngFor in template to empty that sqaure when its clicked
     if(this.grid[index].mole != ""){
       this.grid[index].mole = "";
       this.score++;
+    }
+  }
+
+  updateMole(){ // Loop through the grid-array to make empty squares of the moles that has been visible for 4 seconds
+    for(let i = 0; i < this.grid.length; i++){
+      const mole = this.grid[i];
+      const time = (Date.now() - mole.time) / 1000;
+    if (time >= 4) {
+      mole.mole = ""
+      }
     }
   }
 }

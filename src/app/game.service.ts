@@ -25,7 +25,7 @@ export class GameService {
     this.gameRunning = true;
     this.score = 0;
     this.timer = 60;
-    this.intervalId = setInterval(() => { 
+    this.intervalId = setInterval(() => { //Calls on AddMoles every second and in a interval and clears the interval and the playboard when timer is 0
       if (this.timer > 0) {
         this.timer--;
         this.addMoles();

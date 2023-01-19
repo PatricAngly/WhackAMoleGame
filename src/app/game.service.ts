@@ -28,10 +28,17 @@ export class GameService {
     this.intervalId = setInterval(() => { 
       if (this.timer > 0) {
         this.timer--;
+        this.addMoles();
       } else{
         clearInterval(this.intervalId);
         this.gameRunning = false;
       }
     }, 1000);
+  }
+
+  addMoles(){ // Add new random moles with image property and time property
+    let randomSquare = Math.floor(Math.random() * this.grid.length);
+    this.grid[randomSquare].mole = this.image;
+    this.grid[randomSquare].time = Date.now();
   }
 }

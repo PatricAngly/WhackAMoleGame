@@ -13,6 +13,7 @@ import { GameService } from '../game.service';
 </div>
 <div class="grid">
   <div *ngFor="let square of gameService.grid; let i = index" class="square">
+    <img *ngIf="square.mole" [src]="gameService.image">
   </div>
 </div>
   `,
@@ -31,6 +32,12 @@ import { GameService } from '../game.service';
     background-color: green;
     border-style: solid;
     border-width: 5px;
+  }
+
+  .square img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   `]
 })

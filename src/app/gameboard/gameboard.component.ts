@@ -5,7 +5,7 @@ import { GameService } from '../game.service';
   selector: 'app-gameboard',
   template: `
 <div>
-  <button>Start</button>
+  <button (click)="gameService.startGame()" [disabled]="gameService.gameRunning">Start</button>
 </div>
 <div>
   <p>Time remaining: {{ gameService.timer }}</p>

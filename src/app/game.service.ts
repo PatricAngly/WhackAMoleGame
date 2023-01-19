@@ -20,4 +20,18 @@ export class GameService {
    maxMoles = 0;
 
   constructor() { }
+
+  startGame() { // Runs when start is clicked, disables the button and resets values. 
+    this.gameRunning = true;
+    this.score = 0;
+    this.timer = 60;
+    this.intervalId = setInterval(() => { 
+      if (this.timer > 0) {
+        this.timer--;
+      } else{
+        clearInterval(this.intervalId);
+        this.gameRunning = false;
+      }
+    }, 1000);
+  }
 }

@@ -13,7 +13,7 @@ import { GameService } from '../game.service';
 </div>
 <div class="grid">
   <div *ngFor="let square of gameService.grid; let i = index" class="square">
-    <img *ngIf="square.mole" [src]="gameService.image">
+    <img *ngIf="square.mole" [src]="gameService.image" (click)="gameService.hitMole(i)">
   </div>
 </div>
   `,

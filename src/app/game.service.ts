@@ -41,4 +41,11 @@ export class GameService {
     this.grid[randomSquare].mole = this.image;
     this.grid[randomSquare].time = Date.now();
   }
+
+  hitMole(index:number){ // Takes index as paramter in from ngFor in template to empty that sqaure when its clicked
+    if(this.grid[index].mole != ""){
+      this.grid[index].mole = "";
+      this.score++;
+    }
+  }
 }

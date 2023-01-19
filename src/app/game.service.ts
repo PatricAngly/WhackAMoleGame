@@ -32,6 +32,7 @@ export class GameService {
       } else{
         clearInterval(this.intervalId);
         this.gameRunning = false;
+        this.clearPlayboard()
       }
       this.updateMole();
     }, 1000);
@@ -42,9 +43,9 @@ export class GameService {
       this.maxMoles--;
     }else {
     this.maxMoles++;
-    let randomSquare = Math.floor(Math.random() * this.grid.length)
-    this.grid[randomSquare].mole = this.image
-    this.grid[randomSquare].time = Date.now()
+    let randomSquare = Math.floor(Math.random() * this.grid.length);
+    this.grid[randomSquare].mole = this.image;
+    this.grid[randomSquare].time = Date.now();
     } 
   }
 
@@ -52,6 +53,7 @@ export class GameService {
     if(this.grid[index].mole != ""){
       this.grid[index].mole = "";
       this.score++;
+      this.maxMoles--;
     }
   }
 
@@ -60,8 +62,19 @@ export class GameService {
       const mole = this.grid[i];
       const time = (Date.now() - mole.time) / 1000;
     if (time >= 4) {
-      mole.mole = ""
+      mole.mole = "";
       }
     }
   }
+
+  clearPlayboard() { // Resets the playboard 
+    this.grid = [
+      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
+      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
+      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
+      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
+      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}
+    ]; 
+  }
+
 }

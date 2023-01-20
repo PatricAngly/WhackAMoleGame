@@ -49,7 +49,7 @@ export class GameService {
     } 
   }
 
-  hitMole(index:number){ // Takes index as paramter in from ngFor in template to empty that sqaure when its clicked
+  hitMole(index:number){ // Takes the index from clicked square as paramter from ngFor-template to empty that sqaure when its clicked
     if(this.grid[index].mole != ""){
       this.grid[index].mole = "";
       this.score++;
@@ -61,6 +61,7 @@ export class GameService {
     for(let i = 0; i < this.grid.length; i++){
       const mole = this.grid[i];
       const time = (Date.now() - mole.time) / 1000;
+      console.log(time);
     if (time >= 4) {
       mole.mole = "";
       }

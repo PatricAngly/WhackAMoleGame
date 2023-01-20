@@ -61,7 +61,6 @@ export class GameService {
     for(let i = 0; i < this.grid.length; i++){
       const mole = this.grid[i];
       const time = (Date.now() - mole.time) / 1000;
-      console.log(time);
     if (time >= 4) {
       mole.mole = "";
       }

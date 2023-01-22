@@ -5,76 +5,67 @@ import { Injectable } from '@angular/core';
 })
 export class GameService {
     grid = [ 
-    {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-    {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-    {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-    {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-    {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}
+    {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+    {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+    {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+    {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+    {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}
   ];
   
    timer = 60;
    score = 0;
    image = "https://thumbs.dreamstime.com/b/tecknad-filmv%C3%A5gbrytare-som-komms-ut-ur-h%C3%A5let-136771542.jpg" 
    gameRunning = false;
-   intervalId: any;
-   maxMoles = 0;
+   private intervalId: any;
 
   constructor() { }
 
-  startGame() { // Runs when start is clicked, disables the button and resets values. 
-    this.gameRunning = true;
-    this.score = 0;
-    this.timer = 60;
-    this.intervalId = setInterval(() => { //Calls on AddMoles every second and in a interval and clears the interval and the playboard when timer is 0
-      if (this.timer > 0) {
-        this.timer--;
+  start() {
+    this.intervalId = setInterval(() => { // Starts a interval that calls on addMoles and updatemoles every 300 millisecond.
         this.addMoles();
-      } else{
-        clearInterval(this.intervalId);
-        this.gameRunning = false;
-        this.clearPlayboard()
-      }
-      this.updateMole();
-    }, 1000);
+        this.updateMole();
+    }, 300);
   }
 
-  addMoles(){ // Add new random moles with image property and time property
-    if(this.maxMoles >= 2){
-      this.maxMoles--;
-    }else {
-    this.maxMoles++;
-    let randomSquare = Math.floor(Math.random() * this.grid.length);
-    this.grid[randomSquare].mole = this.image;
-    this.grid[randomSquare].time = Date.now();
-    } 
-  }
-
-  hitMole(index:number){ // Takes the index from clicked square as paramter from ngFor-template to empty that sqaure when its clicked
-    if(this.grid[index].mole != ""){
-      this.grid[index].mole = "";
-      this.score++;
-      this.maxMoles--;
-    }
-  }
-
-  updateMole(){ // Loop through the grid-array to make empty squares of the moles that has been visible for 4 seconds
-    for(let i = 0; i < this.grid.length; i++){
-      const mole = this.grid[i];
-      const time = (Date.now() - mole.time) / 1000;
-    if (time >= 4) {
-      mole.mole = "";
-      }
-    }
-  }
-
-  clearPlayboard() { // Resets the playboard 
+  stop() {
+    clearInterval(this.intervalId); // clears the interval for the game and resets the playboard.
     this.grid = [
-      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0},
-      {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}, {mole:"", time:0}
+      {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+      {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+      {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+      {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0},
+      {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}, {mole:false, time:0}
     ]; 
+  }
+
+  moleCheck(){ // filter a new array with moles that has true as property and return the length of that array.
+    let moleCount = this.grid.filter(x => x.mole === true).length;
+    return moleCount;
+  }
+
+  addMoles(){ // Add new random moles with true property and time property.
+    const maxMoles = this.moleCheck() // Sets maxMoles to the returned lenght from moleCheck().
+    if (maxMoles === 3) { // return nothing if maxMoles is equal to 3. 
+      return;
+    }
+    let randomSquare = Math.floor(Math.random() * this.grid.length); // Makes a random number based on the lenght of the grid-array. 
+    this.grid[randomSquare].mole = true;          //Uses the radom number as index to change
+    this.grid[randomSquare].time = Date.now();    // mole and time property.
+  }
+
+  hitMole(index:number){ // Takes the index from clicked square as paramter and checkes the mole property.
+    if(this.grid[index].mole === true){  // if the property is true
+      this.grid[index].mole = false;     // then the property will be changed back to false.
+      this.score++;
+    }
+  }
+
+  updateMole() { // Loop through the grid-array to make empty squares of the moles that has been visible for 4 seconds.
+    for(let i = 0; i < this.grid.length; i++) {
+        if(this.grid[i].mole === true && Date.now() - this.grid[i].time >= 4000) { // if mole is true and the time is greater or equal to 4 seconds
+            this.grid[i].mole = false;                                             //  mole will be set to false.  
+      }
+    }
   }
 
 }

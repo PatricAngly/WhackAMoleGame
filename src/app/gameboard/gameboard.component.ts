@@ -5,7 +5,7 @@ import { GameService } from '../game.service';
   selector: 'app-gameboard',
   template: `
 <div>
-  <button (click)="gameService.startGame()" [disabled]="gameService.gameRunning">Start</button>
+  <button (click)="startGame()" [disabled]="gameService.gameRunning">Start</button>
 </div>
 <div>
   <p>Time remaining: {{ gameService.timer }}</p>
@@ -44,5 +44,20 @@ import { GameService } from '../game.service';
 export class GameboardComponent {
 
   constructor (public gameService: GameService){}
+
+  startGame() { // calls when user clicks on start.
+    this.gameService.gameRunning = true; // sets game to running which disables the start button.
+    this.gameService.start(); // calls on start() from gameservice.
+    this.gameService.score = 0;
+    this.gameService.timer = 60;
+    let gameinterValId = setInterval(() => { // starts a interval for the timer.
+      this.gameService.timer--; // timer counts down every second.
+      if (this.gameService.timer === 0) { // if timer is 0, game is finished.
+        this.gameService.gameRunning = false; // start button is clickable again.
+        this.gameService.stop(); // calls on stop() from gameservice that clears the palyboard and interrupts the interval for the game. 
+        clearInterval(gameinterValId); // clears the interval for the timer countdown.
+      }
+    }, 1000);
+  }
 
 }

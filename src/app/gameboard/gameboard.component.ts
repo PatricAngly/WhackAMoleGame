@@ -49,12 +49,11 @@ export class GameboardComponent {
     this.gameService.gameRunning = true; // sets game to running which disables the start button.
     this.gameService.start(); // calls on start() from gameservice.
     this.gameService.score = 0;
-    this.gameService.timer = 60;
+    this.gameService.timer = 20;
     let gameinterValId = setInterval(() => { // starts a interval for the timer.
       this.gameService.timer--; // timer counts down every second.
       if (this.gameService.timer === 0) { // if timer is 0, game is finished.
         this.gameService.gameRunning = false; // start button is clickable again.
-        this.gameService.stop(); // calls on stop() from gameservice that clears the palyboard and interrupts the interval for the game. 
         clearInterval(gameinterValId); // clears the interval for the timer countdown.
       }
     }, 1000);

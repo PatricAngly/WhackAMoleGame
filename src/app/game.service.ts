@@ -17,14 +17,24 @@ export class GameService {
    image = "https://thumbs.dreamstime.com/b/tecknad-filmv%C3%A5gbrytare-som-komms-ut-ur-h%C3%A5let-136771542.jpg" 
    gameRunning = false;
    private intervalId: any;
+   maxVal = 500;
+   minVal = 300;
 
   constructor() { }
 
   start() {
     this.intervalId = setInterval(() => { // Starts a interval that calls on addMoles and updatemoles every 300 millisecond.
-        this.addMoles();
+      let timeInterval = Math.floor(Math.random() *(this.maxVal - this.minVal) + this.minVal);
+      console.log(timeInterval);
+      setTimeout(() => {
+        if(this.gameRunning === true){
+         this.addMoles() 
+        }else{
+          this.stop();
+        }
+      }, timeInterval);
         this.updateMole();
-    }, 300);
+    }, 1000);
   }
 
   stop() {

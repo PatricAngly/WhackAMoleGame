@@ -54,10 +54,8 @@ export class GameService {
   }
 
   hitMole(index:number){ // Takes the index from clicked square as paramter and checkes the mole property.
-    if(this.grid[index].mole === true){  // if the property is true
-      this.grid[index].mole = false;     // then the property will be changed back to false.
+      this.grid[index].mole = false;     // hit mole will be changed back to false.
       this.score++;
-    }
   }
 
   updateMole() { // Loop through the grid-array to make empty squares of the moles that has been visible for 4 seconds.

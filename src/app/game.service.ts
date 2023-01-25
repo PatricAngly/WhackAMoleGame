@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { User } from './highscore/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,9 @@ export class GameService {
    image = "https://thumbs.dreamstime.com/b/tecknad-filmv%C3%A5gbrytare-som-komms-ut-ur-h%C3%A5let-136771542.jpg" 
    gameRunning = false;
    private intervalId: any;
-
-  constructor() { }
+   newPlayer: User = {name: '', score: 0 }
+   updatedScore: number;
+  constructor(private __afs: AngularFirestore) { }
 
   start() {
     this.intervalId = setInterval(() => { // Starts a interval that calls on addMoles and updatemoles every 300 millisecond.
@@ -65,5 +68,7 @@ export class GameService {
       }
     }
   }
-
+  addScore() {
+    this.__afs.collection('highscore').add(this.newPlayer)
+  }
 }

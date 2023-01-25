@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
   <app-gameboard></app-gameboard>
+  <app-highscore></app-highscore>
   `,
   styles: ['']
 })

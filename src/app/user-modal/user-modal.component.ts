@@ -9,7 +9,7 @@ import { GameService } from '../game.service';
     <form #myForm="ngForm" (ngSubmit)="saveName()">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" [(ngModel)]="this.gameService.newPlayer.name" name="name" required required minlength="3" #name="ngModel">
+        <input type="text" class="form-control" [(ngModel)]="this.gameService.newPlayer.name" name="name" required minlength="3" #name="ngModel">
         <div *ngIf="name.invalid && name.touched" class="alert alert-danger">
       Name must be at least 3 characters long.
     </div>

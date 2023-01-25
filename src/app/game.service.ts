@@ -69,5 +69,6 @@ export class GameService {
   }
   addScore() {
     this.__afs.collection('highscore').add(this.newPlayer); // adds a new document to the highscore collection with data from newPlayer variable.
+    this.newPlayer.name = ""
   }
 }

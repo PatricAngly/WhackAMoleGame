@@ -20,6 +20,8 @@ export class GameService {
    gameRunning = false;
    private intervalId: any;
    newPlayer: User = {name: '', score: 0 }
+   fastestTime: any = null;
+   clickedTime: any;
   constructor(private __afs: AngularFirestore) { }
 
   start() {
@@ -58,6 +60,11 @@ export class GameService {
   hitMole(index:number){ // Takes the index from clicked square as paramter and checkes the mole property.
       this.grid[index].mole = false;     // hit mole will be changed back to false.
       this.score++;
+      this.clickedTime = new Date().getTime();
+      if (this.fastestTime === null || this.clickedTime < this.fastestTime) {
+          this.fastestTime = this.clickedTime;
+          console.log(this.fastestTime);
+      }
   }
 
   updateMole() { // Loop through the grid-array to make empty squares of the moles that has been visible for 4 seconds.

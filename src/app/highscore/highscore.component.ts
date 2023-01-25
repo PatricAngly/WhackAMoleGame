@@ -22,6 +22,22 @@ import { GameService } from '../game.service';
         </tr>
       </tbody>
     </table>
+    <hr>
+    <h1>Fastest click</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Click time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users | async">
+          <td>{{user.data.name}}</td>
+          <td>{{user.data.score}}</td>
+        </tr>
+      </tbody>
+    </table>
   `,
   styles: [
   ]

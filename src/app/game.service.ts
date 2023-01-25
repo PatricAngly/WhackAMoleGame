@@ -20,7 +20,6 @@ export class GameService {
    gameRunning = false;
    private intervalId: any;
    newPlayer: User = {name: '', score: 0 }
-   updatedScore: number;
   constructor(private __afs: AngularFirestore) { }
 
   start() {
@@ -69,6 +68,6 @@ export class GameService {
     }
   }
   addScore() {
-    this.__afs.collection('highscore').add(this.newPlayer)
+    this.__afs.collection('highscore').add(this.newPlayer); // adds a new document to the highscore collection with data from newPlayer variable.
   }
 }

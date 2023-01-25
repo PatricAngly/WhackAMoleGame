@@ -33,10 +33,10 @@ export class HighscoreComponent {
   constructor(private __afs: AngularFirestore, public gameService: GameService) {} 
 
   ngOnInit(): void {
-    this.userlist = this.__afs.collection<User>('highscore', ref => ref.orderBy('score', 'desc'));
-    this.users = this.userlist.snapshotChanges().pipe(
-      map(action => {
-        return action.map( a => {
+    this.userlist = this.__afs.collection<User>('highscore', ref => ref.orderBy('score', 'desc').limit(10)); // returns a reference from the firebase collection of highscore document, sorted by score and has a limit of 10
+    this.users = this.userlist.snapshotChanges().pipe( // gets all changes from the collection to
+      map(action => {                                  // transfroms every object and type convert them to the User class
+        return action.map( a => {                       
           const data = a.payload.doc.data() as User;
           return { data };
         })

@@ -47,7 +47,6 @@ import { AngularFirestore, } from '@angular/fire/compat/firestore';
 export class GameboardComponent {
 
   constructor (public gameService: GameService, private modalService: NgbModal, private __afs: AngularFirestore, ){}
-  userName = {}
 
   startGame() { // calls when user clicks on start.
     this.gameService.gameRunning = true; // sets game to running which disables the start button.
@@ -60,16 +59,15 @@ export class GameboardComponent {
         this.gameService.gameRunning = false; // start button is clickable again.
         this.gameService.stop(); // calls on stop() from gameservice that clears the palyboard and interrupts the interval for the game. 
         clearInterval(gameinterValId); // clears the interval for the timer countdown.
-        this.gameService.newPlayer.score = this.gameService.score
-        this.gameService.addScore();
+        this.gameService.newPlayer.score = this.gameService.score // applys the final score to the newPlayer object 
+        this.gameService.addScore(); // runs to apply the player and the score to the scoreboard
       }
     }, 1000);
   }
 
   openModal() {
-    const modalRef = this.modalService.open(UserModalComponent);
-    modalRef.result.then((result) => {
-      this.userName = result;
+    const modalRef = this.modalService.open(UserModalComponent); // opens a modal from UserModalComponent then a callback function that will start the game when user submit their name.
+    modalRef.result.then(() => {
       this.startGame()
     })
   }

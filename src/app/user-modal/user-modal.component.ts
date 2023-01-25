@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFirestore, } from '@angular/fire/compat/firestore';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GameService } from '../game.service';
 
@@ -24,10 +23,10 @@ export class UserModalComponent {
 
   
 
-  constructor (public activeModal: NgbActiveModal, private __afs: AngularFirestore, public gameService: GameService){}
+  constructor (public activeModal: NgbActiveModal, public gameService: GameService){}
   
     saveName() {
-    this.activeModal.close();
+    this.activeModal.close(); // closes the modal when the user clicks on start game after they have enter their name.
   }  
 
 

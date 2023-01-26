@@ -19,7 +19,7 @@ export class GameService {
    image = "https://thumbs.dreamstime.com/b/tecknad-filmv%C3%A5gbrytare-som-komms-ut-ur-h%C3%A5let-136771542.jpg" 
    gameRunning = false;
    private intervalId: any;
-   newPlayer: User = {name: '', score: 0 }
+   newPlayer: User = {name: '', score: 0, click: null }
    fastestTime: any = null;
    clickedTime: any;
   constructor(private __afs: AngularFirestore) { }
@@ -60,11 +60,11 @@ export class GameService {
   hitMole(index:number){ // Takes the index from clicked square as paramter and checkes the mole property.
       this.grid[index].mole = false;     // hit mole will be changed back to false.
       this.score++;
-      this.clickedTime = new Date().getTime();
-      if (this.fastestTime === null || this.clickedTime < this.fastestTime) {
-          this.fastestTime = this.clickedTime;
-          console.log(this.fastestTime);
-      }
+      this.clickedTime = Date.now() - this.grid[index].time // timestamp minus date.now is the clicktime   
+      if (this.fastestTime === null || this.clickedTime < this.fastestTime) { // updates fastestTime with clickedTime, then if clickedTime is less than fastestTime it will continue to update fastestTime
+        this.fastestTime = this.clickedTime;
+        this.newPlayer.click = this.fastestTime
+    }
   }
 
   updateMole() { // Loop through the grid-array to make empty squares of the moles that has been visible for 4 seconds.

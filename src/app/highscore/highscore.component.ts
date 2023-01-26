@@ -32,9 +32,9 @@ import { GameService } from '../game.service';
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users | async">
+        <tr *ngFor="let user of userClick | async">
           <td>{{user.data.name}}</td>
-          <td>{{user.data.score}}</td>
+          <td>{{user.data.click}} ms</td>
         </tr>
       </tbody>
     </table>
@@ -43,8 +43,10 @@ import { GameService } from '../game.service';
   ]
 })
 export class HighscoreComponent {
-  userlist!: AngularFirestoreCollection<User>;    
-  users: any;                                   
+  userlist!: AngularFirestoreCollection<User>;
+  clicklist!: AngularFirestoreCollection<User>    
+  users: any; 
+  userClick:any;                                  
 
   constructor(private __afs: AngularFirestore, public gameService: GameService) {} 
 
@@ -58,6 +60,16 @@ export class HighscoreComponent {
         })
       })
     );
+    this.clicklist = this.__afs.collection<User>('highscore', ref => ref.orderBy('click', 'asc').limit(5)); // returns a reference from the firebase collection of highscore document, sorted by lowest ms and has a limit of 5
+    this.userClick = this.clicklist.snapshotChanges().pipe( // gets all changes from the collection to
+    map(action => {                                  // transfroms every object and type convert them to the User class
+      return action.map( a => {                       
+        const data = a.payload.doc.data() as User;
+        return { data };
+      })
+    })
+  );
+
   }
 
 }
